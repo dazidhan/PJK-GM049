@@ -1,20 +1,14 @@
-# Gunakan image Node.js versi 20 yang berbasis Alpine (sangat ringan)
 FROM node:20-alpine
 
-# Buat direktori kerja
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copy package.json dan package-lock.json (jika ada)
+# Copy package files dan install dependencies
 COPY package*.json ./
+RUN npm install --omit=dev
 
-# Install dependencies Node.js
-RUN npm install --only=production
-
-# Copy seluruh source code backend
+# Copy seluruh source code
 COPY . .
 
-# Ekspos port 3000
-EXPOSE 3000
+EXPOSE 5000
 
-# Jalankan server
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
