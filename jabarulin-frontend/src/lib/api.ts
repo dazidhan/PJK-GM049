@@ -3,29 +3,22 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 export interface DestinationItem {
   nama_tempat: string;
   rating: number | null;
-  lokasi: {
-    lat: number;
-    lng: number;
-  };
+  lokasi: { lat: number; lng: number };
   photos: string[];
-}
-
-export interface RuteDanLaluLintas {
-  jarak_meter: number;
-  durasi_detik: number;
-  kondisi_kemacetan: 'NORMAL' | 'SLOW' | 'TRAFFIC_JAM';
-  polyline: string | null;
 }
 
 export interface RecommendationResponse {
   status: string;
-  pesan_ai: string;
-  destinasi: DestinationItem;
-  rute_dan_lalu_lintas: RuteDanLaluLintas | null;
+  reply: string;
+  raw_data: DestinationItem;
+  rute_dan_lalu_lintas: {
+    jarak_meter: number;
+    durasi_detik: number;
+    kondisi_kemacetan: string;
+    polyline: string | null;
+  } | null;
 }
 
-// Signature disesuaikan dengan cara ChatBot.tsx memanggil fungsi ini:
-// fetchRecommendations(queryText, category, top_n)
 export const fetchRecommendations = async (
   prompt: string,
   kategori: string,
@@ -57,5 +50,11 @@ export const fetchRecommendations = async (
     throw new Error(data.message);
   }
 
-  return data;
+  // Map field backend → field yang diexpect ChatBot.tsx
+  return {
+    status: data.status,
+    reply: data.pesan_ai,
+    raw_data: data.destinasi,
+    rute_dan_lalu_lintas: data.rute_dan_lalu_lintas,
+  };
 };
