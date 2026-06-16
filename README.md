@@ -37,7 +37,7 @@ graph TD
     B --> C[Wisata Alam / Pantai / Camping / Keluarga / Adventure / Fotografi / Healing / Lainnya]
     C --> D[Tahap 2: Input Preferensi Bebas]
     D --> E[Contoh: 'Pengen liburan yang dingin tapi ga mau di gunung']
-    E --> F[Kirim Request ke API /api/recommend]
+    E --> F[Kirim Request ke API /api/recommendations]
 ```
 
 * **Tahap 1: Pemilihan Kategori Wisata (Guided Selection)**
@@ -142,7 +142,7 @@ Jabarulin_Project/
 ## 🌐 Daftar URL & Endpoint
 
 ### 1. Backend Service (Node.js) — Port 5000
-- **API Rekomendasi (Node.js -> AI Lokal -> Gemini):** `POST http://localhost:5000/api/recommend`
+- **API Rekomendasi (Node.js -> AI Lokal -> Gemini):** `POST http://localhost:5000/api/recommendations`
   - *Payload (JSON):*
     ```json
     {

@@ -196,8 +196,8 @@ async def lifespan(app: FastAPI):
         hf_repo = os.getenv("HF_REPO_ID", "Dhaffa/jabarulin-indobert-recommendation")
         logger.info(f"🧠 Loading IndoBERT Model dari Hugging Face Hub ({hf_repo})...")
         try:
-            tokenizer = AutoTokenizer.from_pretrained(hf_repo)
-            model = AutoModelForSequenceClassification.from_pretrained(hf_repo)
+            tokenizer = AutoTokenizer.from_pretrained(hf_repo, subfolder="indobert_classifier")
+            model = AutoModelForSequenceClassification.from_pretrained(hf_repo, subfolder="indobert_classifier")
             logger.info(f"✅ IndoBERT Model ({hf_repo}) dari Hugging Face Hub berhasil dimuat!")
         except Exception as e:
             logger.error(f"❌ Gagal memuat IndoBERT Model dari Hugging Face Hub: {e}")
@@ -214,7 +214,7 @@ async def lifespan(app: FastAPI):
         logger.info("🏷️ Downloading Label Encoder dari Hugging Face Hub...")
         try:
             from huggingface_hub import hf_hub_download
-            local_le_path = hf_hub_download(repo_id=hf_repo, filename="label_encoder.pkl")
+            local_le_path = hf_hub_download(repo_id=hf_repo, filename="label_encoder.pkl", subfolder="indobert_classifier")
         except Exception as e:
             logger.error(f"❌ Gagal mendownload Label Encoder dari Hugging Face Hub: {e}")
             raise RuntimeError(f"Label Encoder download failed: {e}")
@@ -236,7 +236,7 @@ async def lifespan(app: FastAPI):
         logger.info("🧠 Downloading Tourism Embeddings dari Hugging Face Hub...")
         try:
             from huggingface_hub import hf_hub_download
-            local_embeddings_path = hf_hub_download(repo_id=hf_repo, filename="tourism_embeddings.pkl")
+            local_embeddings_path = hf_hub_download(repo_id=hf_repo, filename="tourism_embeddings.pkl", subfolder="indobert_classifier")
         except Exception as e:
             logger.error(f"❌ Gagal mendownload Tourism Embeddings dari Hugging Face Hub: {e}")
             raise RuntimeError(f"Tourism Embeddings download failed: {e}")
