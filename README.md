@@ -91,58 +91,25 @@ Jabarulin_Project/
 
 ---
 
-## Cara Menggunakan (Mulai dari Nol)
+## ⚙️ Panduan Instalasi & Jalankan Proyek
 
-### ⚙️ Persiapan Awal & Konfigurasi `.env`
-1. Lakukan `git clone` repository ini ke komputer Anda.
-2. Dapatkan API Key Gemini dari [Google AI Studio](https://aistudio.google.com/).
-3. Masuk ke folder `Backend/`, copy `.env.example` menjadi `.env`.
-4. Isi variabel `GEMINI_API_KEY` dengan API Key milik Anda.
-5. (Opsional) Jika repositori Hugging Face bersifat private, tambahkan variabel `HF_TOKEN=token_anda` pada file `.env` tersebut.
+Untuk mempermudah proses setup dan instalasi di lingkungan pengembangan lokal Anda, panduan instalasi teknis telah dipisahkan ke dalam dokumen tersendiri. Panduan ini menjelaskan prasyarat, konfigurasi berkas `.env`, cara menjalankan menggunakan Docker Compose, serta langkah-langkah menjalankan secara manual:
+
+👉 **[Buka Panduan Instalasi Lengkap (INSTALLATION.md)](file:///c:/Users/dhaff/Documents/Dhaffazik/Pijak/Capstone%20Project/Test%20Capstone/PJK-GM049/INSTALLATION.md)**
 
 ---
 
-### OPSI 1: Menjalankan via Docker (Direkomendasikan)
-1. Jalankan perintah berikut di direktori utama:
-   ```bash
-   docker-compose up --build
-   ```
-2. Tunggu hingga proses build selesai. Sistem akan otomatis mendownload model dari Hugging Face Hub dan menyalakan container:
-   - Backend Service berjalan di: `http://localhost:5000`
-   - AI Service berjalan di: `http://localhost:8000`
+## 🌐 Daftar Layanan & Port Utama
 
----
+Setelah seluruh sistem berhasil dijalankan, berikut adalah daftar URL dan port default untuk setiap layanan:
 
-### OPSI 2: Menjalankan Secara Manual (Tanpa Docker)
+### 1. Frontend Service (Next.js & TypeScript) — Port 3000
+* **URL Aplikasi:** [http://localhost:3000](http://localhost:3000)
+* **Deskripsi:** Antarmuka pengguna (UI/UX) chatbot cerdas dengan onboarding guide kustom dan alur kategori terpandu.
 
-#### Terminal 1: AI Service (Python FastAPI)
-1. Masuk ke folder `Model_AI` dan buat virtual environment.
-2. Install dependensi:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Jalankan server FastAPI:
-   ```bash
-   python app.py
-   ```
-
-#### Terminal 2: Backend Service (Node.js)
-1. Masuk ke folder `Backend`.
-2. Install dependensi:
-   ```bash
-   npm install
-   ```
-3. Jalankan server Express:
-   ```bash
-   npm start
-   ```
-
----
-
-## 🌐 Daftar URL & Endpoint
-
-### 1. Backend Service (Node.js) — Port 5000
-- **API Rekomendasi (Node.js -> AI Lokal -> Gemini):** `POST http://localhost:5000/api/recommendations`
+### 2. Backend Service (Node.js & Express) — Port 5000
+* **URL API Base:** `http://localhost:5000`
+* **API Rekomendasi (Node.js -> FastAPI -> Gemini LLM):** `POST /api/recommendations`
   - *Payload (JSON):*
     ```json
     {
@@ -151,9 +118,9 @@ Jabarulin_Project/
     }
     ```
 
-### 2. AI Service (FastAPI) — Port 8000
-- **Dokumentasi Swagger UI:** [http://localhost:8000/docs](http://localhost:8000/docs)
-- **API Rekomendasi (Lokal AI saja):** `POST http://localhost:8000/api/recommend`
+### 3. AI Service (FastAPI) — Port 8000
+* **URL Dokumentasi Swagger UI:** [http://localhost:8000/docs](http://localhost:8000/docs)
+* **API Rekomendasi (Klasifikasi Lokal & Semantic Scoring):** `POST /api/recommend`
   - *Payload (JSON):*
     ```json
     {
@@ -165,64 +132,17 @@ Jabarulin_Project/
 
 ---
 
-## 🧪 Uji Coba Input & Output (Postman / cURL)
+## 👥 Tim Pengembang (PJK-GM049)
 
-**Request Body (JSON):**
-```json
-{
-  "category": "Camping",
-  "prompt": "Pengen liburan yang dingin tapi ga mau di gunung"
-}
-```
+Proyek kolaborasi ini dikembangkan oleh 5 anggota tim dengan pembagian peran profesional sebagai berikut:
 
-**Response Body (JSON):**
-```json
-{
-  "status": "success",
-  "reply": "Halo wargi! Pengen liburan sejuk tapi males nanjak gunung yang melelahkan? Pas banget! Jabarulin punya beberapa rekomendasi tempat camping berudara dingin di dataran rendah yang pastinya nyaman dan tanpa harus mendaki puncak gunung:\n\n1. **Bukit Cita Cita Camping Ground**\nLokasinya berada di kawasan Puncak, Bogor yang udaranya sudah terjamin sangat dingin dan sejuk. Tempatnya asri dan menyuguhkan pemandangan perkebunan teh. Sangat cocok untuk mendirikan tenda dan bersantai.\n*Rating:* 4.5/5 \n[Buka di Google Maps](https://www.google.com/maps/place/...)\n\n2. **Bumi Perkemahan Batu Kuda Manglayang**\nTerletak di kaki gunung Manglayang Bandung. Kamu bisa merasakan camping sejuk di tengah hutan pinus yang tenang tanpa perlu mendaki ke puncak gunungnya. Toilet dan fasilitas warung makan di sini cukup lengkap.\n*Rating:* 4.6/5\n[Buka di Google Maps](https://www.google.com/maps/place/...)\n\nSemoga liburan camping adem kamu menyenangkan!",
-  "raw_data": [
-    {
-      "name": "Bukit Cita Cita Camping Ground",
-      "category": "bumi perkemahan",
-      "intent_label": "camping",
-      "address": "citamiang jl raya puncak tugu utara kec cisarua kabupaten bogor jawa barat 16750",
-      "phone": "0822 9992 9869",
-      "website": "https://www.instagram.com/real...",
-      "rating": 4.5,
-      "total_reviews": 864,
-      "google_maps_url": "https://www.google.com/maps/place/...",
-      "similarity_score": 0.311,
-      "final_score": 0.434,
-      "reviews": [
-        "pengalaman pertama kesini agak kurang mengenakan tendanya belum ready..."
-      ],
-      "preference_match": 0.042,
-      "category_match": 1.0
-    },
-    {
-      "name": "Bumi Perkemahan Batu Kuda Manglayang",
-      "category": "bumi perkemahan",
-      "intent_label": "camping",
-      "address": "4p4w r5m cikoneng satu cibiru wetan kec cileunyi kabupaten bandung jawa barat 40625",
-      "phone": "tidak tersedia",
-      "website": "tidak tersedia",
-      "rating": 4.6,
-      "total_reviews": 3699,
-      "google_maps_url": "https://www.google.com/maps/place/...",
-      "similarity_score": 0.291,
-      "final_score": 0.433,
-      "reviews": [
-        "tempatnya luas banget buat camp yang lengkap sama toiletnya ada banyak..."
-      ],
-      "preference_match": 0.042,
-      "category_match": 1.0
-    }
-  ]
-}
-```
-
----
-
-## Tim Pengembang
-
-**Capstone Project PJK-GM049**
+1. **Project Manager & System Analyst**
+   - Mengelola timeline proyek, menyusun dokumentasi sistem, dan merancang diagram alur sistem (*guided recommendation flow*).
+2. **AI & Model Engineer**
+   - Melakukan fine-tuning model IndoBERT, merancang arsitektur hybrid semantic search, dan mendeploy AI Engine menggunakan FastAPI.
+3. **Backend Developer**
+   - Membangun server utama (Node.js/Express), mengintegrasikan API Google Gemini LLM, serta merancang API endpoint dan navigasi peta rute statis.
+4. **Frontend Developer**
+   - Merancang antarmuka pengguna (Next.js & TypeScript), menerapkan alur chatbot 2-tahap, dan membuat modul panduan pengguna (onboarding modal) interaktif.
+5. **Data Engineer & Analyst**
+   - Mengumpulkan dataset (scraping ulasan), membersihkan data kotor di Excel (285 baris data unik pariwisata Jawa Barat), serta menyiapkannya untuk index embedding semantik.
