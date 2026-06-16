@@ -43,13 +43,11 @@ const PORT = process.env.PORT || 5000;
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('MongoDB Terhubung');
-  })
-  .catch((err) => {
-    console.error('Gagal terhubung ke MongoDB (Abaikan peringatan ini untuk testing UI):', err.message);
-    // process.exit(1); // Jangan exit agar server tetap menyala walau db mati
-  })
-  .finally(() => {
     app.listen(PORT, () => {
       console.log(`Server berjalan di port ${PORT}`);
     });
+  })
+  .catch((err) => {
+    console.error('Gagal terhubung ke MongoDB:', err.message);
+    process.exit(1);
   });

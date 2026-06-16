@@ -1,6 +1,19 @@
 "use client";
-import { MapPin, Star, Sparkles } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Search, MapPin, Star, Sparkles } from "lucide-react";
+
+interface HeroSectionProps {
+  onSearch: (query: string) => void;
+}
+
+const SUGGESTIONS = [
+  "🏔️ Camping dengan sunrise indah",
+  "🏖️ Pantai eksotis dekat Bandung",
+  "🌿 Wisata keluarga sejuk",
+  "🚵 Petualangan rafting & hiking",
+  "🍜 Kuliner khas Sunda legendaris",
+  "🌸 Taman bunga instagramable",
+];
 
 const PREVIEW_DESTINATIONS = [
   { image: "/kawah putih.jpg", name: "Kawah Putih", rating: 4.7, address: "Ciwidey, Bandung" },
@@ -8,8 +21,15 @@ const PREVIEW_DESTINATIONS = [
   { image: "/gunung papandayan.jpg", name: "Gunung Papandayan", rating: 4.8, address: "Garut" },
 ];
 
-export default function HeroSection() {
-  const router = useRouter();
+export default function HeroSection({ onSearch }: HeroSectionProps) {
+  const [query, setQuery] = useState("");
+
+  const handleSearch = (q?: string) => {
+    const searchQuery = q ?? query;
+    if (!searchQuery.trim()) return;
+    onSearch(searchQuery);
+    document.getElementById("chatbot")?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <section id="hero" className="hero">
@@ -36,64 +56,54 @@ export default function HeroSection() {
           </h1>
 
           <p className="hero-subtitle">
-            Pilih kategori wisata impianmu dan ceritakan keinginan wisatamu dalam bahasa natural. 
-            AI kami akan merekomendasikan destinasi sempurna untukmu — lengkap dengan info lalu lintas 
+            Ceritakan keinginan wisatamu dalam bahasa natural dan biarkan AI kami
+            merekomendasikan destinasi sempurna untukmu — lengkap dengan info lalu lintas
             dan navigasi Google Maps.
           </p>
 
-          {/* CTA Buttons */}
-          <div style={{ marginTop: "2rem", display: "flex", flexWrap: "wrap", gap: "1rem" }}>
-            <button
-              id="hero-start-btn"
-              onClick={() => router.push("/chat")}
-              className="hero-search-btn"
-              style={{
-                padding: "0.85rem 1.75rem",
-                fontSize: "1.02rem",
-                borderRadius: "var(--radius-lg)",
-                boxShadow: "var(--shadow-md)",
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-              }}
-            >
-              <Sparkles size={16} />
-              Mulai Cari Wisata
-            </button>
-            <button
-              id="hero-explore-btn"
-              onClick={() => {
-                const element = document.getElementById("categories");
-                element?.scrollIntoView({ behavior: "smooth" });
-              }}
-              style={{
-                padding: "0.85rem 1.75rem",
-                fontSize: "1.02rem",
-                borderRadius: "var(--radius-lg)",
-                background: "white",
-                border: "1.5px solid var(--blue-100)",
-                color: "var(--slate-700)",
-                fontWeight: 600,
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "var(--blue-50)";
-                e.currentTarget.style.borderColor = "var(--blue-200)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "white";
-                e.currentTarget.style.borderColor = "var(--blue-100)";
-              }}
-            >
-              Jelajahi Kategori
-            </button>
+          {/* Search Box */}
+          <div className="hero-search">
+            <div className="hero-search-box">
+              <span style={{ padding: "0 0.5rem 0 1.25rem", display: "flex", alignItems: "center", color: "var(--blue-400)" }}>
+                <Search size={18} />
+              </span>
+              <input
+                id="hero-search-input"
+                className="hero-search-input"
+                type="text"
+                placeholder="Contoh: wisata keluarga sejuk dekat Bandung..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              />
+              <button
+                id="hero-search-btn"
+                className="hero-search-btn"
+                onClick={() => handleSearch()}
+              >
+                <Sparkles size={16} />
+                Tanya AI
+              </button>
+            </div>
+
+            {/* Suggestion Chips */}
+            <div className="hero-suggestions">
+              {SUGGESTIONS.map((s) => (
+                <button
+                  key={s}
+                  className="hero-suggestion-chip"
+                  onClick={() => handleSearch(s)}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Stats */}
-          <div className="hero-stats" style={{ marginTop: "3rem" }}>
+          <div className="hero-stats">
             <div className="hero-stat">
-              <span className="hero-stat-number">274+</span>
+              <span className="hero-stat-number">10K+</span>
               <span className="hero-stat-label">Destinasi Wisata</span>
             </div>
             <div className="hero-stat">
@@ -101,7 +111,7 @@ export default function HeroSection() {
               <span className="hero-stat-label">Rating Rata-rata</span>
             </div>
             <div className="hero-stat">
-              <span className="hero-stat-number">96.5%</span>
+              <span className="hero-stat-number">98%</span>
               <span className="hero-stat-label">Akurasi AI</span>
             </div>
           </div>
@@ -123,11 +133,12 @@ export default function HeroSection() {
             {/* Chat Body */}
             <div className="hero-chat-body">
               <div className="hero-bubble hero-bubble-user">
-                Keluarga terpilih! Mau cari tempat bermain anak yang seru 👨‍👩‍👧
+                Pengen camping sambil lihat sunrise yang bagus, akses mudah 🏕️
               </div>
 
               <div className="hero-bubble hero-bubble-ai">
-                ✨ Siap! Berikut destinasi wisata ramah anak dan keluarga terbaik di Jawa Barat yang cocok buat kamu:
+                ✨ Siap! Berikut destinasi camping dengan sunrise terbaik di Jawa Barat
+                yang cocok buat kamu:
               </div>
 
               {PREVIEW_DESTINATIONS.map((d, i) => (

@@ -53,10 +53,6 @@ exports.getRecommendation = async (req, res) => {
     // LANGKAH 3: Google Geocoding API
     // Tambahkan konteks "Jawa Barat, Indonesia" karena nama wisata sering generik/ambigu
     // ====================================================
-    // ====================================================
-    // LANGKAH 3: Google Geocoding API
-    // Tambahkan konteks "Jawa Barat, Indonesia" karena nama wisata sering generik/ambigu
-    // ====================================================
     const geocodeQuery = encodeURIComponent(`${destinationName}, Jawa Barat, Indonesia`);
     let geoLat = -6.9175; // Default Bandung
     let geoLng = 107.6191;
@@ -242,7 +238,7 @@ Permintaan user: "${prompt}"
 
 Berikut data destinasi yang paling cocok:
 - Nama: ${destinationName}
-- Kategori: ${topResult.category || kategori || 'Wisata'}
+- Kategori: ${kategori}
 - Rating: ${placeRating || 'tidak tersedia'}
 ${placePhotos.length > 0 ? `- Tersedia ${placePhotos.length} foto dari Google Maps` : '- Foto tidak tersedia'}
 
@@ -261,7 +257,7 @@ Tugas kamu: Buatkan jawaban 1-2 paragraf dengan bahasa santai dan ramah. Jelaska
     } catch (err) {
       // Fallback ke template statis jika Gemini error — jangan gagalkan response
       console.error('Gemini API Error:', err.message);
-      pesanAI = `Rekomendasi kami untuk kamu adalah ${destinationName}, cocok untuk kategori ${topResult.category || kategori || 'Wisata'}. Tempat ini memiliki rating ${placeRating || '-'} dan layak untuk dikunjungi. Selamat berlibur!`;
+      pesanAI = `Rekomendasi kami untuk kamu adalah ${destinationName}, cocok untuk kategori ${kategori}. Tempat ini memiliki rating ${placeRating || '-'} dan layak untuk dikunjungi. Selamat berlibur!`;
     }
 
     // ====================================================
@@ -279,8 +275,7 @@ Tugas kamu: Buatkan jawaban 1-2 paragraf dengan bahasa santai dan ramah. Jelaska
         },
         photos: placePhotos
       },
-      rute_dan_lalu_lintas: ruteDanLaluLintas,
-      raw_data: aiResults // Ditambahkan agar frontend bisa merender daftar kartu destinasi secara dinamis
+      rute_dan_lalu_lintas: ruteDanLaluLintas
     };
 
     // ====================================================

@@ -1,6 +1,5 @@
 "use client";
-import { MapPin, Star, Navigation } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { MapPin, Star, ExternalLink, Navigation } from "lucide-react";
 
 const POPULAR_DESTINATIONS = [
   {
@@ -11,6 +10,7 @@ const POPULAR_DESTINATIONS = [
     rating: 4.7,
     reviews: 23841,
     badge: "Populer",
+    intent: "alam",
     maps: "https://maps.google.com/?q=Kawah+Putih+Bandung",
   },
   {
@@ -21,6 +21,7 @@ const POPULAR_DESTINATIONS = [
     rating: 4.6,
     reviews: 18203,
     badge: "Rekomendasi",
+    intent: "pantai",
     maps: "https://maps.google.com/?q=Pantai+Pangandaran",
   },
   {
@@ -31,6 +32,7 @@ const POPULAR_DESTINATIONS = [
     rating: 4.8,
     reviews: 12560,
     badge: "Trending",
+    intent: "petualangan",
     maps: "https://maps.google.com/?q=Gunung+Papandayan+Garut",
   },
   {
@@ -41,6 +43,7 @@ const POPULAR_DESTINATIONS = [
     rating: 4.5,
     reviews: 9870,
     badge: "Instagramable",
+    intent: "alam",
     maps: "https://maps.google.com/?q=Kebun+Teh+Ciwidey",
   },
   {
@@ -51,6 +54,7 @@ const POPULAR_DESTINATIONS = [
     rating: 4.6,
     reviews: 15431,
     badge: "Romantis",
+    intent: "alam",
     maps: "https://maps.google.com/?q=Situ+Patenggang+Bandung",
   },
   {
@@ -61,18 +65,16 @@ const POPULAR_DESTINATIONS = [
     rating: 4.4,
     reviews: 7203,
     badge: "Hidden Gem",
+    intent: "alam",
     maps: "https://maps.google.com/?q=Curug+Cimahi",
   },
 ];
 
-export default function PopularDestinations() {
-  const router = useRouter();
+interface PopularDestinationsProps {
+  onDestinationClick: (name: string) => void;
+}
 
-  const handleDestinationClick = (name: string) => {
-    const query = `Ceritakan tentang ${name} dan rekomendasikan tempat serupa di Jawa Barat`;
-    router.push(`/chat?q=${encodeURIComponent(query)}`);
-  };
-
+export default function PopularDestinations({ onDestinationClick }: PopularDestinationsProps) {
   return (
     <section id="destinations" className="destinations-section">
       <div className="section-header">
@@ -93,10 +95,10 @@ export default function PopularDestinations() {
             key={dest.name}
             className="dest-card"
             id={`dest-card-${dest.name.replace(/\s/g, "-")}`}
-            onClick={() => handleDestinationClick(dest.name)}
+            onClick={() => onDestinationClick(dest.name)}
           >
             {/* Image */}
-            <div
+            <div 
               className="dest-card-img"
               style={{ backgroundImage: `url("${encodeURI(dest.image)}")`, backgroundSize: 'cover', backgroundPosition: 'center' }}
             >

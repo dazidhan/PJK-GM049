@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import OnboardingModal from "@/components/OnboardingModal";
 
 export const metadata: Metadata = {
   title: "JabarUlin AI — Rekomendasi Wisata Cerdas Jawa Barat",
@@ -31,14 +28,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>
-        <div className="page-wrapper">
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-          <OnboardingModal />
-        </div>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

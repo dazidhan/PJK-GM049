@@ -1,21 +1,24 @@
 "use client";
-
-interface CategoryFilterProps {
-  onCategoryClick: (query: string) => void;
-}
+import { useRouter } from "next/navigation";
 
 const CATEGORIES = [
-  { name: "Alam & Pegunungan", query: "wisata alam pegunungan hiking di Jawa Barat", count: "2.4K destinasi" },
-  { name: "Pantai & Laut", query: "wisata pantai laut snorkeling di Jawa Barat", count: "850 destinasi" },
-  { name: "Kuliner Sunda", query: "kuliner makanan khas sunda tradisional enak", count: "3.1K tempat" },
-  { name: "Petualangan", query: "wisata petualangan rafting off-road extreme", count: "420 destinasi" },
-  { name: "Taman & Agrowisata", query: "taman bunga kebun teh agrowisata instagramable", count: "680 destinasi" },
-  { name: "Budaya & Sejarah", query: "wisata budaya sejarah museum situs bersejarah", count: "390 destinasi" },
-  { name: "Relaksasi & Spa", query: "wisata relaksasi spa healing resort ketenangan", count: "510 destinasi" },
-  { name: "Wisata Keluarga", query: "wisata keluarga anak ramah wahana seru", count: "1.2K destinasi" },
+  { name: "Wisata Alam", categoryName: "Wisata Alam", count: "2.4K destinasi", emoji: "🏔️" },
+  { name: "Pantai", categoryName: "Pantai", count: "850 destinasi", emoji: "🏖️" },
+  { name: "Camping", categoryName: "Camping", count: "460 destinasi", emoji: "🏕️" },
+  { name: "Keluarga", categoryName: "Keluarga", count: "1.2K destinasi", emoji: "👨‍👩‍👧" },
+  { name: "Adventure", categoryName: "Adventure", count: "420 destinasi", emoji: "🚵" },
+  { name: "Fotografi", categoryName: "Fotografi", count: "390 destinasi", emoji: "📸" },
+  { name: "Healing", categoryName: "Healing", count: "510 destinasi", emoji: "💆" },
+  { name: "Lainnya", categoryName: "Lainnya", count: "1.1K destinasi", emoji: "🏨" },
 ];
 
-export default function CategoryFilter({ onCategoryClick }: CategoryFilterProps) {
+export default function CategoryFilter() {
+  const router = useRouter();
+
+  const handleClick = (categoryName: string) => {
+    router.push(`/chat?cat=${encodeURIComponent(categoryName)}`);
+  };
+
   return (
     <section id="categories" className="category-section">
       <div className="container">
@@ -35,11 +38,9 @@ export default function CategoryFilter({ onCategoryClick }: CategoryFilterProps)
               key={cat.name}
               className="category-card"
               id={`cat-${cat.name.replace(/\s/g, "-")}`}
-              onClick={() => {
-                onCategoryClick(cat.query);
-                document.getElementById("chatbot")?.scrollIntoView({ behavior: "smooth" });
-              }}
+              onClick={() => handleClick(cat.categoryName)}
             >
+              <div className="category-emoji">{cat.emoji}</div>
               <div className="category-name">{cat.name}</div>
               <div className="category-count">{cat.count}</div>
             </div>

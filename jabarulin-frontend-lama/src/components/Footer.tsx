@@ -1,8 +1,10 @@
 "use client";
 import { MapPin } from "lucide-react";
-import Link from "next/link";
 
 export default function Footer() {
+  const scrollTo = (id: string) =>
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+
   return (
     <footer className="footer">
       <div className="footer-grid">
@@ -31,11 +33,11 @@ export default function Footer() {
         <div>
           <h4 className="footer-col-title">Navigasi</h4>
           <ul className="footer-links">
-            <li><Link href="/">Beranda</Link></li>
-            <li><Link href="/chat">AI Chat</Link></li>
-            <li><Link href="/destinasi">Destinasi Populer</Link></li>
-            <li><Link href="/chat">Kategori Wisata</Link></li>
-            <li><Link href="/tentang">Fitur Unggulan</Link></li>
+            <li><a href="#" onClick={() => scrollTo("hero")}>Beranda</a></li>
+            <li><a href="#" onClick={() => scrollTo("chatbot")}>AI Chat</a></li>
+            <li><a href="#" onClick={() => scrollTo("destinations")}>Destinasi Populer</a></li>
+            <li><a href="#" onClick={() => scrollTo("categories")}>Kategori Wisata</a></li>
+            <li><a href="#" onClick={() => scrollTo("features")}>Fitur Unggulan</a></li>
           </ul>
         </div>
 
@@ -43,11 +45,11 @@ export default function Footer() {
         <div>
           <h4 className="footer-col-title">Destinasi</h4>
           <ul className="footer-links">
-            <li><Link href="/chat?q=wisata+bandung">Bandung &amp; Sekitarnya</Link></li>
-            <li><Link href="/chat?q=pantai+selatan+jawa+barat">Pantai Selatan Jabar</Link></li>
-            <li><Link href="/chat?q=wisata+garut+cianjur">Garut &amp; Cianjur</Link></li>
-            <li><Link href="/chat?q=wisata+bogor+puncak">Bogor &amp; Puncak</Link></li>
-            <li><Link href="/chat?q=wisata+cirebon">Cirebon &amp; Pesisir</Link></li>
+            <li><a href="#">Bandung & Sekitarnya</a></li>
+            <li><a href="#">Pantai Selatan Jabar</a></li>
+            <li><a href="#">Garut & Cianjur</a></li>
+            <li><a href="#">Bogor & Puncak</a></li>
+            <li><a href="#">Cirebon & Pesisir</a></li>
           </ul>
         </div>
 
@@ -55,11 +57,11 @@ export default function Footer() {
         <div>
           <h4 className="footer-col-title">Tentang</h4>
           <ul className="footer-links">
-            <li><Link href="/tentang">Tentang JabarUlin</Link></li>
-            <li><Link href="/tentang">Teknologi AI</Link></li>
-            <li><a href="http://localhost:8000/docs" target="_blank" rel="noopener noreferrer">API Documentation</a></li>
-            <li><Link href="/tentang">Kebijakan Privasi</Link></li>
-            <li><Link href="/tentang">Hubungi Kami</Link></li>
+            <li><a href="#">Tentang JabarUlin</a></li>
+            <li><a href="#">Teknologi AI</a></li>
+            <li><a href="#">API Documentation</a></li>
+            <li><a href="#">Kebijakan Privasi</a></li>
+            <li><a href="#">Hubungi Kami</a></li>
           </ul>
         </div>
       </div>

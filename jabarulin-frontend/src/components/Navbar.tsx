@@ -1,13 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
-import { MapPin, Sparkles } from "lucide-react";
+import { MapPin, Sparkles, Menu, X } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-interface NavbarProps {
-  onChatClick: () => void;
-}
-
-export default function Navbar({ onChatClick }: NavbarProps) {
+export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -15,60 +15,96 @@ export default function Navbar({ onChatClick }: NavbarProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  };
+  // Tutup mobile menu saat navigasi
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
+  const navLinks = [
+    { href: "/", label: "Beranda" },
+    { href: "/chat", label: "AI Chat" },
+    { href: "/destinasi", label: "Destinasi" },
+    { href: "/tentang", label: "Tentang" },
+  ];
 
   return (
     <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
       <div className="navbar-inner">
         {/* Logo */}
-        <div className="navbar-logo" onClick={() => scrollToSection("hero")}>
+        <Link href="/" className="navbar-logo" style={{ textDecoration: "none" }}>
           <div className="navbar-logo-icon">
             <MapPin size={18} />
           </div>
           <span className="navbar-logo-text">
             JabarUlin <span>AI</span>
           </span>
-        </div>
+        </Link>
 
-        {/* Links */}
+        {/* Desktop Links */}
         <ul className="navbar-links">
+          {navLinks.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className={pathname === link.href ? "active" : ""}
+                style={{
+                  fontWeight: pathname === link.href ? 700 : 500,
+                  color: pathname === link.href ? "var(--blue-600)" : undefined,
+                }}
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
           <li>
-            <a href="#hero" onClick={(e) => { e.preventDefault(); scrollToSection("hero"); }}>
-              Beranda
-            </a>
-          </li>
-          <li>
-            <a href="#chatbot" onClick={(e) => { e.preventDefault(); scrollToSection("chatbot"); }}>
-              AI Chat
-            </a>
-          </li>
-          <li>
-            <a href="#destinations" onClick={(e) => { e.preventDefault(); scrollToSection("destinations"); }}>
-              Destinasi
-            </a>
-          </li>
-          <li>
-            <a href="#categories" onClick={(e) => { e.preventDefault(); scrollToSection("categories"); }}>
-              Kategori
-            </a>
-          </li>
-          <li>
-            <a href="#features" onClick={(e) => { e.preventDefault(); scrollToSection("features"); }}>
-              Fitur
-            </a>
-          </li>
-          <li>
-            <button className="navbar-cta" id="nav-try-ai-btn" onClick={onChatClick}
-              style={{ border: "none", cursor: "pointer", fontFamily: "inherit" }}>
-              <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <Sparkles size={14} /> Coba AI Sekarang
-              </span>
-            </button>
+            <Link href="/chat" id="nav-try-ai-btn">
+              <button
+                className="navbar-cta"
+                style={{ border: "none", cursor: "pointer", fontFamily: "inherit" }}
+              >
+                <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <Sparkles size={14} /> Coba AI Sekarang
+                </span>
+              </button>
+            </Link>
           </li>
         </ul>
+
+        {/* Mobile Hamburger */}
+        <button
+          className="navbar-hamburger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Toggle menu"
+          style={{
+            display: "none",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: "8px",
+            color: "var(--slate-700)",
+          }}
+        >
+          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      {mobileOpen && (
+        <div className="navbar-mobile-menu">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`navbar-mobile-link ${pathname === link.href ? "active" : ""}`}
+            >
+              {link.label}
+            </Link>
+          ))}
+          <Link href="/chat" className="navbar-mobile-cta">
+            <Sparkles size={14} /> Coba AI Sekarang
+          </Link>
+        </div>
+      )}
     </nav>
   );
 }
