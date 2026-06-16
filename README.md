@@ -12,7 +12,7 @@ Jabarulin AI adalah sebuah sistem cerdas yang memecahkan masalah wisatawan dalam
 
 ---
 
-## 🤖 Spesifikasi Model AI & Alur Input
+## Spesifikasi Model AI & Alur Input
 
 ### 1. Model AI yang Digunakan (IndoBERT Hybrid)
 Sistem ini bermigrasi sepenuhnya ke arsitektur **Hybrid AI Pipeline v3.0** berbasis model deep learning **IndoBERT**:
@@ -91,15 +91,15 @@ Jabarulin_Project/
 
 ---
 
-## ⚙️ Panduan Instalasi & Jalankan Proyek
+## Panduan Instalasi & Jalankan Proyek
 
 Untuk mempermudah proses setup dan instalasi di lingkungan pengembangan lokal Anda, panduan instalasi teknis telah dipisahkan ke dalam dokumen tersendiri. Panduan ini menjelaskan prasyarat, konfigurasi berkas `.env`, cara menjalankan menggunakan Docker Compose, serta langkah-langkah menjalankan secara manual:
 
-👉 **[Buka Panduan Instalasi Lengkap (INSTALLATION.md)](file:///c:/Users/dhaff/Documents/Dhaffazik/Pijak/Capstone%20Project/Test%20Capstone/PJK-GM049/INSTALLATION.md)**
+**[Buka Panduan Instalasi Lengkap (INSTALLATION.md)](file:///c:/Users/dhaff/Documents/Dhaffazik/Pijak/Capstone%20Project/Test%20Capstone/PJK-GM049/INSTALLATION.md)**
 
 ---
 
-## 🌐 Daftar Layanan & Port Utama
+## Daftar Layanan & Port Utama
 
 Setelah seluruh sistem berhasil dijalankan, berikut adalah daftar URL dan port default untuk setiap layanan:
 
@@ -132,7 +132,7 @@ Setelah seluruh sistem berhasil dijalankan, berikut adalah daftar URL dan port d
 
 ---
 
-## 👥 Tim Pengembang (PJK-GM049)
+## Tim Pengembang (PJK-GM049)
 
 Proyek kolaborasi ini dikembangkan oleh 5 anggota tim dengan pembagian peran profesional sebagai berikut:
 
@@ -145,4 +145,4 @@ Proyek kolaborasi ini dikembangkan oleh 5 anggota tim dengan pembagian peran pro
 4. **Frontend Developer**
    - Merancang antarmuka pengguna (Next.js & TypeScript), menerapkan alur chatbot 2-tahap, dan membuat modul panduan pengguna (onboarding modal) interaktif.
 5. **Data Engineer & Analyst**
-   - Mengumpulkan dataset (scraping ulasan), membersihkan data kotor di Excel (285 baris data unik pariwisata Jawa Barat), serta menyiapkannya untuk index embedding semantik.
+   - Mengumpulkan dataset (scraping ulasan), membersihkan data kotor di Excel (285 baris data unik pariwisata Jawa Barat), serta menyiapkannya untuk index embedding semantik.
