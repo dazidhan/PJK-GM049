@@ -24,10 +24,13 @@ export interface RecommendationResponse {
   rute_dan_lalu_lintas: RuteDanLaluLintas | null;
 }
 
+// Signature disesuaikan dengan cara ChatBot.tsx memanggil fungsi ini:
+// fetchRecommendations(queryText, category, top_n)
 export const fetchRecommendations = async (
   prompt: string,
   kategori: string,
-  userLocation: { lat: number; lng: number },
+  top_n: number = 3,
+  userLocation: { lat: number; lng: number } = { lat: -6.9175, lng: 107.6191 },
   token?: string
 ): Promise<RecommendationResponse> => {
   const headers: Record<string, string> = {
